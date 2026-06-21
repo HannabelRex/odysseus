@@ -1,0 +1,257 @@
+/* ============================================================
+   Jarvis Phase 05D - Sidebar and Top Command Bar Redesign
+   Safe visual overlay. Does not remove existing Odysseus features.
+   ============================================================ */
+
+:root {
+  --jarvis-nav-width: 264px;
+  --jarvis-command-height: 46px;
+  --jarvis-shell-top-gap: 10px;
+  --jarvis-shell-side-gap: 10px;
+}
+
+body.jarvis-nav-shell-v1 {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(66, 217, 255, 0.14), transparent 34rem),
+    radial-gradient(circle at 84% 8%, rgba(139, 92, 246, 0.13), transparent 28rem),
+    linear-gradient(135deg, var(--jarvis-bg-0, #040814), var(--jarvis-bg-1, #071326) 48%, #050a16 100%) !important;
+}
+
+body.jarvis-nav-shell-v1::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(120, 220, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 220, 255, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 18%, black, transparent 72%);
+}
+
+body.jarvis-nav-shell-v1 > * {
+  position: relative;
+}
+
+#jarvis-command-bar {
+  position: fixed;
+  top: var(--jarvis-shell-top-gap);
+  left: calc(var(--jarvis-nav-width) + 22px);
+  right: 22px;
+  min-height: var(--jarvis-command-height);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 14px;
+  border: 1px solid rgba(116, 211, 255, 0.18);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(9, 18, 34, 0.76), rgba(12, 26, 48, 0.52)),
+    rgba(5, 12, 24, 0.78);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  color: var(--jarvis-text-strong, #f4fbff);
+}
+
+#jarvis-command-bar .jarvis-command-left,
+#jarvis-command-bar .jarvis-command-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.jarvis-orb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #42d9ff;
+  box-shadow: 0 0 18px rgba(66, 217, 255, 0.95), 0 0 42px rgba(66, 217, 255, 0.35);
+  animation: jarvis-orb-pulse 2.6s ease-in-out infinite;
+  flex: 0 0 auto;
+}
+
+@keyframes jarvis-orb-pulse {
+  0%, 100% { transform: scale(0.92); opacity: 0.78; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+.jarvis-command-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  min-width: 0;
+}
+
+.jarvis-command-title strong {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e9fbff;
+}
+
+.jarvis-command-title span {
+  margin-top: 3px;
+  font-size: 11px;
+  color: rgba(205, 232, 244, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jarvis-command-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(119, 214, 255, 0.18);
+  background: rgba(7, 18, 33, 0.68);
+  color: rgba(228, 246, 255, 0.86);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.jarvis-command-chip[data-tone="safe"] {
+  border-color: rgba(74, 222, 128, 0.24);
+  color: rgba(206, 255, 221, 0.92);
+}
+
+.jarvis-command-chip[data-tone="model"] {
+  border-color: rgba(66, 217, 255, 0.24);
+  color: rgba(221, 247, 255, 0.96);
+}
+
+.jarvis-command-chip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.85;
+  box-shadow: 0 0 14px currentColor;
+}
+
+.jarvis-sidebar-shell,
+body.jarvis-nav-shell-v1 aside,
+body.jarvis-nav-shell-v1 nav[class*="sidebar"],
+body.jarvis-nav-shell-v1 [id*="sidebar"],
+body.jarvis-nav-shell-v1 [class*="sidebar"] {
+  background:
+    linear-gradient(180deg, rgba(14, 36, 61, 0.82), rgba(4, 12, 25, 0.92)),
+    rgba(4, 12, 24, 0.88) !important;
+  border-right: 1px solid rgba(113, 211, 255, 0.18) !important;
+  box-shadow: 18px 0 70px rgba(0, 0, 0, 0.32), inset -1px 0 0 rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+
+.jarvis-sidebar-shell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(66, 217, 255, 0.58), transparent);
+  pointer-events: none;
+}
+
+#jarvis-sidebar-crest {
+  margin: 10px 10px 12px;
+  padding: 12px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(108, 215, 255, 0.18);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(66, 217, 255, 0.18), transparent 58%),
+    linear-gradient(135deg, rgba(12, 31, 55, 0.86), rgba(7, 16, 30, 0.72));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 16px 40px rgba(0,0,0,0.22);
+}
+
+#jarvis-sidebar-crest .jarvis-crest-kicker {
+  color: rgba(164, 230, 255, 0.8);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+#jarvis-sidebar-crest .jarvis-crest-title {
+  margin-top: 5px;
+  color: #f4fbff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+#jarvis-sidebar-crest .jarvis-crest-subtitle {
+  margin-top: 4px;
+  color: rgba(210, 234, 245, 0.7);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+body.jarvis-nav-shell-v1 a,
+body.jarvis-nav-shell-v1 button,
+body.jarvis-nav-shell-v1 [role="button"] {
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.jarvis-sidebar-shell a,
+.jarvis-sidebar-shell button,
+.jarvis-sidebar-shell [role="button"] {
+  border-radius: 12px !important;
+}
+
+.jarvis-sidebar-shell a:hover,
+.jarvis-sidebar-shell button:hover,
+.jarvis-sidebar-shell [role="button"]:hover {
+  background: rgba(66, 217, 255, 0.10) !important;
+  color: #effcff !important;
+  box-shadow: inset 0 0 0 1px rgba(66, 217, 255, 0.14);
+}
+
+.jarvis-sidebar-shell .active,
+.jarvis-sidebar-shell [aria-current="page"],
+.jarvis-sidebar-shell [data-active="true"] {
+  background: linear-gradient(135deg, rgba(66, 217, 255, 0.18), rgba(139, 92, 246, 0.12)) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 0 0 1px rgba(94, 218, 255, 0.22), 0 0 24px rgba(66, 217, 255, 0.12);
+}
+
+.jarvis-nav-ready main,
+.jarvis-nav-ready [class*="chat"],
+.jarvis-nav-ready [id*="chat"] {
+  scrollbar-color: rgba(99, 213, 255, 0.4) rgba(4, 12, 24, 0.3);
+}
+
+@media (max-width: 940px) {
+  #jarvis-command-bar {
+    left: 12px;
+    right: 12px;
+    top: 8px;
+  }
+
+  #jarvis-command-bar .jarvis-command-right {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jarvis-orb {
+    animation: none;
+  }
+
+  body.jarvis-nav-shell-v1 a,
+  body.jarvis-nav-shell-v1 button,
+  body.jarvis-nav-shell-v1 [role="button"] {
+    transition: none;
+  }
+}
