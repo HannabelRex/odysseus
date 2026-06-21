@@ -1,0 +1,251 @@
+/* ============================================================
+   Jarvis Phase 05E - Chat Mission Console Redesign
+   Safe premium chat enhancement layer. Features remain intact.
+   ============================================================ */
+
+body.jarvis-chat-console-v1 {
+  --jarvis-chat-max-width: min(1120px, calc(100vw - 420px));
+  --jarvis-rail-width: 286px;
+  --jarvis-composer-radius: 28px;
+}
+
+body.jarvis-chat-console-v1::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 54% 18%, rgba(66, 217, 255, 0.10), transparent 30%),
+    radial-gradient(circle at 80% 72%, rgba(139, 92, 246, 0.08), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: auto, auto, 54px 54px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.86), rgba(0,0,0,0.22));
+}
+
+/* Main chat area: make the center feel intentional without hiding Odysseus controls. */
+body.jarvis-chat-console-ready main,
+body.jarvis-chat-console-ready #main,
+body.jarvis-chat-console-ready [id*="chat" i]:not(input):not(textarea):not(button):not(select),
+body.jarvis-chat-console-ready [class*="chat" i]:not(input):not(textarea):not(button):not(select) {
+  scrollbar-color: rgba(66, 217, 255, 0.34) rgba(255, 255, 255, 0.04);
+}
+
+body.jarvis-chat-console-ready .jarvis-chat-root {
+  position: relative;
+  isolation: isolate;
+}
+
+body.jarvis-chat-console-ready .jarvis-chat-root::before {
+  content: "Mission Console";
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  z-index: 2;
+  padding: 6px 10px;
+  border: 1px solid rgba(66, 217, 255, 0.18);
+  border-radius: 999px;
+  color: rgba(214, 245, 255, 0.72);
+  background: rgba(5, 11, 24, 0.56);
+  backdrop-filter: blur(16px);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* Message and content surfaces. Conservative selectors keep the original feature set alive. */
+body.jarvis-chat-console-ready [class*="message" i],
+body.jarvis-chat-console-ready [id*="message" i],
+body.jarvis-chat-console-ready [class*="bubble" i],
+body.jarvis-chat-console-ready [class*="response" i] {
+  border-radius: 22px;
+}
+
+body.jarvis-chat-console-ready [class*="message" i]:not(input):not(textarea):not(button),
+body.jarvis-chat-console-ready [class*="bubble" i]:not(input):not(textarea):not(button) {
+  border-color: rgba(125, 220, 255, 0.12);
+}
+
+/* Composer/input premium treatment. */
+body.jarvis-chat-console-ready textarea,
+body.jarvis-chat-console-ready input[type="text"],
+body.jarvis-chat-console-ready [contenteditable="true"] {
+  border-radius: var(--jarvis-composer-radius) !important;
+  border-color: rgba(66, 217, 255, 0.22) !important;
+  background:
+    linear-gradient(180deg, rgba(12, 22, 38, 0.92), rgba(7, 13, 25, 0.92)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 54px rgba(0, 0, 0, 0.30),
+    0 0 0 1px rgba(66, 217, 255, 0.03) !important;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+body.jarvis-chat-console-ready textarea:focus,
+body.jarvis-chat-console-ready input[type="text"]:focus,
+body.jarvis-chat-console-ready [contenteditable="true"]:focus {
+  border-color: rgba(66, 217, 255, 0.48) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 20px 70px rgba(0, 0, 0, 0.36),
+    0 0 0 4px rgba(66, 217, 255, 0.08) !important;
+}
+
+.jarvis-composer-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 10px;
+  padding: 7px 11px;
+  border: 1px solid rgba(66, 217, 255, 0.16);
+  border-radius: 999px;
+  color: rgba(214, 245, 255, 0.72);
+  background: rgba(5, 11, 24, 0.48);
+  backdrop-filter: blur(14px);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+
+.jarvis-composer-hint::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #42d9ff;
+  box-shadow: 0 0 18px rgba(66, 217, 255, 0.78);
+}
+
+/* Right mission context rail. */
+#jarvis-mission-context-rail {
+  position: fixed;
+  top: 92px;
+  right: 18px;
+  width: var(--jarvis-rail-width);
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  z-index: 33;
+  padding: 16px;
+  border: 1px solid rgba(125, 220, 255, 0.16);
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(12, 22, 38, 0.78), rgba(5, 11, 24, 0.74));
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(22px) saturate(1.15);
+  color: rgba(235, 249, 255, 0.90);
+}
+
+#jarvis-mission-context-rail .jarvis-rail-eyebrow {
+  color: rgba(66, 217, 255, 0.78);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-title {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-copy {
+  margin-top: 8px;
+  color: rgba(214, 228, 240, 0.72);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-section {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#jarvis-mission-context-rail .jarvis-rail-label {
+  color: rgba(214, 245, 255, 0.64);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-chip {
+  padding: 6px 8px;
+  border: 1px solid rgba(66, 217, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(66, 217, 255, 0.06);
+  color: rgba(225, 244, 255, 0.78);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-status {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-status-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 11px;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-status-row strong {
+  color: rgba(235, 249, 255, 0.86);
+  font-weight: 800;
+}
+
+#jarvis-mission-context-rail .jarvis-rail-status-row span {
+  color: rgba(125, 220, 255, 0.78);
+  text-align: right;
+}
+
+/* Compact controls should still look premium without becoming mystery meat. */
+body.jarvis-chat-console-ready button,
+body.jarvis-chat-console-ready select {
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease, background 150ms ease;
+}
+
+body.jarvis-chat-console-ready button:hover,
+body.jarvis-chat-console-ready select:hover {
+  box-shadow: 0 0 0 1px rgba(66, 217, 255, 0.08), 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+@media (max-width: 1260px) {
+  #jarvis-mission-context-rail {
+    display: none;
+  }
+
+  body.jarvis-chat-console-v1 {
+    --jarvis-chat-max-width: min(1000px, calc(100vw - 280px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.jarvis-chat-console-ready textarea,
+  body.jarvis-chat-console-ready input[type="text"],
+  body.jarvis-chat-console-ready [contenteditable="true"],
+  body.jarvis-chat-console-ready button,
+  body.jarvis-chat-console-ready select {
+    transition: none !important;
+  }
+}
